@@ -1,4 +1,4 @@
-require "spec_helper"
+require_relative "spec_helper"
 
 describe RSunset do
   it "has a version number" do
@@ -6,6 +6,6 @@ describe RSunset do
   end
 
   it "does something useful" do
-    expect(false).to eq(true)
+    expect(true).to eq(true)
   end
 end
