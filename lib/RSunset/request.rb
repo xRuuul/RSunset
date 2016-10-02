@@ -19,6 +19,10 @@ module RSunset
       @response = response
     end
 
+    def remove_response
+      @response = nil
+    end
+
     def has_response_attached
       @response != nil
     end
@@ -73,14 +77,13 @@ module RSunset
     def self.create_by_rectangle_zone(bounding_box,cluster = true)
       bbox = ""
       bounding_box.each{ |v| bbox << v.to_s << ","}
-      bbox.chomp(",")
+      bbox = bbox.chomp(",")
       if cluster
         c = "yes"
       else
         c = "no"
       end
-
-      options = {:bbox => bbox, cluster => c}
+      options = {:bbox => bbox, :cluster => c}
       new(:by_rectangle_zone,options)
     end
 
@@ -98,11 +101,10 @@ module RSunset
     def self.create_by_several_ids(ids)
       identification = ""
       ids.each{ |id| identification << id.to_s << "," }
-      identification.chomp(",")
+      identification = identification.chomp(",")
 
       options = {:id => identification}
-      Current_Weather_Request.new(:by_multi_id,options)
+      new(:by_multi_id,options)
     end
-
   end
 end
