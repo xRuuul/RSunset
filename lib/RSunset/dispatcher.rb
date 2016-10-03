@@ -3,15 +3,15 @@ require "http"
 
 module RSunset
 
-  $server = "http://api.openweathermap.org/data/2.5/"
-  $id_key = "APPID"
-
   class Dispatcher
 
     attr_accessor :std_parameters
+    attr_accessor :server
+
 
     def initialize(api_key)
       @std_parameters = {:appid => api_key.to_s}
+      @server = "http://api.openweathermap.org/data/2.5/"
     end
 
     def set_api_key(api_key)
@@ -49,14 +49,14 @@ module RSunset
 
       case type
         when :current_weather
-          url = $server + "weather"
+          url = @server + "weather"
           case subtype
             when :by_rectangle_zone
-              url = $server + "box/city"
+              url = @server + "box/city"
             when :by_cycle
-              url = $server + "find"
+              url = @server + "find"
             when :by_multi_id
-              url = $server + "group"
+              url = @server + "group"
           end
       end
 
