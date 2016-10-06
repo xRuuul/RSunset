@@ -2,6 +2,8 @@
 module RSunset
   class CurrentWeather
 
+    attr_reader :cities
+
     def initialize(json_as_string)
       @cities = []
       parse_json(json_as_string)
@@ -38,6 +40,8 @@ module RSunset
     attr_reader :id
     attr_reader :name
     attr_reader :position
+    attr_reader :weather
+    attr_reader :main
 
     def initialize(data)
       parse_hash(data)
@@ -50,6 +54,9 @@ module RSunset
       @position = data["coord"]
 
       @weather = data["weather"]
+      if(@weather.is_a? Array)
+        @weather = @weather[0]
+      end
       @main = data["main"]
       @wind = data["wind"]
 
