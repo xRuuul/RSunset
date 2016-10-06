@@ -1,5 +1,6 @@
 
 require "http"
+require_relative "response"
 
 module RSunset
 
@@ -33,12 +34,24 @@ module RSunset
 
     def send_request(request)
       response = HTTP.get(get_request_url(request), :params => get_request_params(request).merge(std_parameters))
+      response_object = nil
       if(response.code == 200)
         #Response is valid
+        begin
+          case request.request_type
+            when :current_weather
+              response_object = CurrentWeather.new(response.to_s)
+          end
+        rescue JSON::ParserError => e
+          raise "Parser error: #{e.message}"
+        end
+
       else
         request.remove_response
         raise "Server returning code #{response.code}"
       end
+
+      response_object
     end
 
     private
