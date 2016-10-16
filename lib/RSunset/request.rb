@@ -107,4 +107,32 @@ module RSunset
       new(:by_multi_id,options)
     end
   end
+
+  class Forecast_5Day_Request < Request
+
+    private_class_method :new
+
+    def initialize(sub_request_type,options)
+      super(:forecast_5day,sub_request_type,options)
+    end
+
+    def self.create_by_city_name(city_name,country_code = nil)
+      identification = city_name
+      if(country_code != nil)
+        identification << "," <<country_code
+      end
+      options = {:q => identification}
+      new(:by_city_name,options)
+    end
+
+    def self.create_by_city_id(id)
+      options = {:id => id.to_s}
+      new(:by_city_id,options)
+    end
+
+    def self.create_by_geo_coords(lat,lng)
+      options = {:lat => lat.to_s,:lon => lng.to_s}
+      new(:by_geo_coords,options)
+    end
+  end
 end
