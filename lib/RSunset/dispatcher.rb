@@ -41,6 +41,8 @@ module RSunset
           case request.request_type
             when :current_weather
               response_object = CurrentWeather.new(response.to_s)
+            when :forecast_5day
+              response_object = Forecast_5Day.new(response.to_s)
           end
         rescue JSON::ParserError => e
           raise "Parser error: #{e.message}"
@@ -71,6 +73,8 @@ module RSunset
             when :by_multi_id
               url = @server + "group"
           end
+        when :forecast_5day
+          url = @server + "forecast"
       end
 
       url
