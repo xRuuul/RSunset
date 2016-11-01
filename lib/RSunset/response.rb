@@ -85,11 +85,13 @@ module RSunset
     attr_reader :forecasts
 
     def initialize(json_as_string)
-      @cities = []
+      @forecasts = []
       parse_json(json_as_string)
     end
 
     def parse_json(json_as_string)
+
+      object = JSON.parse(json_as_string)
       #Either List of forcasts or one forcast
       if object.key?("cnt") && object.key?("list")
         array = object["list"]
