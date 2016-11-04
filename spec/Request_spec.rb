@@ -111,3 +111,18 @@ describe RSunset::Forecast_5Day_Request do
     expect(request.sub_request_type).to eq(:by_geo_coords)
   end
 end
+
+describe RSunset::Pollution_Request do
+  it "has correct id" do
+    request = RSunset::Pollution_Request.create_c0(0,0,Time.now)
+    expect(request.request_type).to eq(:pollution)
+  end
+
+  it "creates instance for c0 correctly" do
+    time = Time.now
+    request = RSunset::Pollution_Request.create_c0(1,2,time)
+    expect(request.options[:lat]).to eq(1)
+    expect(request.options[:lon]).to eq(2)
+    expect(request.options[:time]).to eq(time.utc.iso8601)
+  end
+end

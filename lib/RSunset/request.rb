@@ -135,4 +135,18 @@ module RSunset
       new(:by_geo_coords,options)
     end
   end
+
+  class Pollution_Request < Request
+
+    private_class_method :new
+
+    def initialize(sub_request_type,options)
+      super(:pollution,sub_request_type,options)
+    end
+
+    def self.create_c0(lat,lng,time)
+      options = {:lat => lat, :lon => lng, :time => time.utc.iso8601}
+      new(:c0,options)
+    end
+  end
 end
