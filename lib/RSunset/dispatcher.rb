@@ -52,7 +52,7 @@ module RSunset
 
       else
         request.remove_response
-        raise "Server returning code #{response.code}"
+        raise "Server returning code #{response.code} for #{get_request_url(request)}"
       end
 
       response_object
