@@ -3,8 +3,8 @@ require_relative "spec_helper"
 describe RSunset::Dispatcher do
 
   dispatcher = RSunset::Dispatcher.new("123")
-  response_current = IO.read("current_weather_return.txt")
-  response_forecast5 = IO.read("forecast_test_return.txt")
+  response_current = IO.read("spec/current_weather_return.txt")
+  response_forecast5 = IO.read("spec/forecast_test_return.txt")
 
   it "handles server response correctly" do
 
@@ -90,6 +90,16 @@ describe RSunset::Dispatcher do
 
     request = RSunset::Forecast_5Day_Request.create_by_geo_coords(35,139)
     stub_request(:get,"http://api.openweathermap.org/data/2.5/forecast?lat=35&lon=139&appid=123").to_return(body: response_forecast5,status: 200)
+    dispatcher.send_request(request)
+  end
+
+  #====================================
+
+  it "generates api call: AIR POLLUTION CO correctly" do
+
+    time = Time.new(2016,10,31,2,3,4,"+00:00")
+    request = RSunset::Pollution_Request.create_co(1.01,1.222,time,2)
+    stub_request(:get,"http://api.openweathermap.org/pollution/v1/co/1.01,1.22/2016-10-31T02:03:04Z.json?appid=123")
     dispatcher.send_request(request)
   end
 end

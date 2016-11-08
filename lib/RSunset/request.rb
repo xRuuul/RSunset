@@ -1,4 +1,6 @@
 
+require "time"
+
 module RSunset
   class Request
 
@@ -144,9 +146,16 @@ module RSunset
       super(:pollution,sub_request_type,options)
     end
 
-    def self.create_c0(lat,lng,time)
-      options = {:lat => lat, :lon => lng, :time => time.utc.iso8601}
-      new(:c0,options)
+    def self.create_co(lat,lng,time,digits = 2)
+      command = "%0.0#{digits}f"
+      options = {:lat => sprintf(command,lat), :lon => sprintf(command,lng), :time => time.utc.iso8601}
+      new(:co,options)
+    end
+
+    def self.create_o3(lat,lng,time,digits = 2)
+      command = "%0.0#{digits}f"
+      options = {:lat => sprintf(command,lat), :lon => sprintf(command,lng), :time => time.utc.iso8601}
+      new(:o3,options)
     end
   end
 end

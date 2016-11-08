@@ -8,11 +8,13 @@ module RSunset
 
     attr_accessor :std_parameters
     attr_accessor :server
+    attr_accessor :pollution_server
 
 
     def initialize(api_key)
       @std_parameters = {:appid => api_key.to_s}
       @server = "http://api.openweathermap.org/data/2.5/"
+      @pollution_server = "http://api.openweathermap.org/pollution/v1/"
     end
 
     def set_api_key(api_key)
@@ -75,13 +77,28 @@ module RSunset
           end
         when :forecast_5day
           url = @server + "forecast"
+        when :pollution
+          lat = request.options[:lat]
+          lon = request.options[:lon]
+          time = request.options[:time]
+          case subtype
+            when :co
+              url = "#{@pollution_server}co/#{lat},#{lon}/#{time}.json"
+            when :o3
+              url = "#{@pollution_server}o3/#{lat},#{lon}/#{time}.json"
+          end
       end
 
       url
     end
 
     def get_request_params(request)
-      request.options
+      case request.request_type
+        when :pollution
+          return {}
+        else
+          return request.options
+      end
     end
 
   end

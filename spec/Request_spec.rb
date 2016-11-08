@@ -114,15 +114,23 @@ end
 
 describe RSunset::Pollution_Request do
   it "has correct id" do
-    request = RSunset::Pollution_Request.create_c0(0,0,Time.now)
+    request = RSunset::Pollution_Request.create_co(0,0,Time.now)
     expect(request.request_type).to eq(:pollution)
   end
 
-  it "creates instance for c0 correctly" do
+  it "creates instance for co correctly" do
     time = Time.now
-    request = RSunset::Pollution_Request.create_c0(1,2,time)
-    expect(request.options[:lat]).to eq(1)
-    expect(request.options[:lon]).to eq(2)
+    request = RSunset::Pollution_Request.create_co(1.123,2.123,time,2)
+    expect(request.options[:lat]).to eq("1.12")
+    expect(request.options[:lon]).to eq("2.12")
+    expect(request.options[:time]).to eq(time.utc.iso8601)
+  end
+
+  it "creates instance for o3 correctly" do
+    time = Time.now
+    request = RSunset::Pollution_Request.create_o3(1.123,2.123,time,2)
+    expect(request.options[:lat]).to eq("1.12")
+    expect(request.options[:lon]).to eq("2.12")
     expect(request.options[:time]).to eq(time.utc.iso8601)
   end
 end
